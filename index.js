@@ -51,6 +51,13 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/tips/user/:mail", async (req, res) => {
+      const mail = req.params.mail;
+      const query = { email: mail };
+      const result = await tipsCollection.find(query).toArray();
+      res.send(result);
+    });
+
     app.get("/gardeners", async (req, res) => {
       const result = await gardenersCollection.find().toArray();
       res.send(result);
