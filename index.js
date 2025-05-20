@@ -39,7 +39,10 @@ async function run() {
       res.send(result);
     });
 
-
+    app.get("/tips", async (req, res) => {
+      const result = tipsCollection.find().toArray();
+      res.send(result);
+    });
 
     app.get("/gardeners", async (req, res) => {
       const result = await gardenersCollection.find().toArray();
