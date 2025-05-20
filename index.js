@@ -51,10 +51,28 @@ async function run() {
       res.send(result);
     });
 
+    app.put("/tips/uniqueUser/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedTip = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const updateDocument = {
+        $set: updatedTip,
+      };
+      const result = await tipsCollection.updateOne(filter, updateDocument);
+      res.send(result);
+    });
+
     app.get("/tips/user/:mail", async (req, res) => {
       const mail = req.params.mail;
       const query = { email: mail };
       const result = await tipsCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    app.delete("/tips/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await tipsCollection.deleteOne(query);
       res.send(result);
     });
 
