@@ -10,9 +10,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-
-const uri =
-  `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@alpha10.qadkib3.mongodb.net/?retryWrites=true&w=majority&appName=Alpha10`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@alpha10.qadkib3.mongodb.net/?retryWrites=true&w=majority&appName=Alpha10`;
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -24,11 +22,29 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    // await client.connect();
+    // await client.db("admin").command({ ping: 1 });
+    // console.log(
+    //   "Pinged your deployment. You successfully connected to MongoDB!"
+    // );
+    const gardenersCollection = client
+      .db("gardenersdb")
+      .collection("gardeners");
+
+    const tipsCollection = client.db("gardenersdb").collection("tips");
+
+    app.post("/tips", async (req, res) => {
+      const newTip = req.body;
+      const result = await tipsCollection.insertOne(newTip);
+      res.send(result);
+    });
+
+
+
+    app.get("/gardeners", async (req, res) => {
+      const result = await gardenersCollection.find().toArray();
+      res.send(result);
+    });
   } finally {
   }
 }
