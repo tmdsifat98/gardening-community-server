@@ -69,6 +69,17 @@ async function run() {
       res.send(result);
     });
 
+    app.patch("/tips/like/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+
+      const updateDoc = {
+        $inc: { likes: 1 },
+      };
+      const result = await tipsCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+
     app.delete("/tips/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
