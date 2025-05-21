@@ -80,6 +80,16 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/trending", async (req, res) => {
+      const result = await tipsCollection
+        .find({availability:"Public"})
+        .sort({ likes: -1 })
+        .limit(6)
+        .toArray();
+
+      res.send(result);
+    });
+
     app.delete("/tips/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
@@ -88,7 +98,10 @@ async function run() {
     });
 
     app.get("/gardeners", async (req, res) => {
-      const result = await gardenersCollection.find().toArray();
+      const result = await gardenersCollection
+        .find({ status: "active" })
+        .limit(6)
+        .toArray();
       res.send(result);
     });
   } finally {
