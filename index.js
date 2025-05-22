@@ -40,7 +40,8 @@ async function run() {
     });
 
     app.get("/tips", async (req, res) => {
-      const result = await tipsCollection.find().toArray();
+      const query = { availability: "Public" };
+      const result = await tipsCollection.find(query).toArray();
       res.send(result);
     });
 
@@ -81,8 +82,9 @@ async function run() {
     });
 
     app.get("/trending", async (req, res) => {
+      const query = { availability: "Public" };
       const result = await tipsCollection
-        .find({availability:"Public"})
+        .find(query)
         .sort({ likes: -1 })
         .limit(6)
         .toArray();
@@ -97,11 +99,15 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/gardeners", async (req, res) => {
+    app.get("/gardeners/active", async (req, res) => {
       const result = await gardenersCollection
-        .find({ status: "active" })
+        .find({ status: "Active" })
         .limit(6)
         .toArray();
+      res.send(result);
+    });
+    app.get("/gardeners", async (req, res) => {
+      const result = await gardenersCollection.find().toArray();
       res.send(result);
     });
   } finally {
