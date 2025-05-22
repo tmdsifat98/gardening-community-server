@@ -75,7 +75,7 @@ async function run() {
       const filter = { _id: new ObjectId(id) };
 
       const updateDoc = {
-        $inc: { likes: 1 },
+        $inc: { totalLiked: 1 },
       };
       const result = await tipsCollection.updateOne(filter, updateDoc);
       res.send(result);
@@ -85,7 +85,7 @@ async function run() {
       const query = { availability: "Public" };
       const result = await tipsCollection
         .find(query)
-        .sort({ likes: -1 })
+        .sort({ totalLiked: -1 })
         .limit(6)
         .toArray();
 
