@@ -32,6 +32,7 @@ async function run() {
       .collection("gardeners");
 
     const tipsCollection = client.db("gardenersdb").collection("tips");
+    const userCollection = client.db("gardenersdb").collection("userReview");
 
     app.post("/tips", async (req, res) => {
       const newTip = req.body;
@@ -108,6 +109,10 @@ async function run() {
     });
     app.get("/gardeners", async (req, res) => {
       const result = await gardenersCollection.find().toArray();
+      res.send(result);
+    });
+    app.get("/userReview", async (req, res) => {
+      const result = await userCollection.find().toArray();
       res.send(result);
     });
   } finally {
