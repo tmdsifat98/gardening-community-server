@@ -45,3 +45,27 @@ This project emphasizes eco-friendly practices, offering a platform where both a
 - **Firebase Authentication** – Secure login and user management
 
 ---
+
+## 🚀 Run Locally
+
+You need to clone the server repository.
+```bash
+https://github.com/tmdsifat98/gardening-community-server
+```
+Environment variables (.env)
+```bash
+DB_USER="green-circle"
+DB_PASS="JRSgiuN8fVrbPp0S"
+```
+Go to the directory and run it
+```bash
+nodemone start
+```
+Here is the local server url
+```bash
+http://localhost:3000
+```
+And production url is here
+```bash
+https://assignment-11-server-beige-seven.vercel.app
+```
