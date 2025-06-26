@@ -87,7 +87,7 @@ async function run() {
       const result = await tipsCollection
         .find(query)
         .sort({ totalLiked: -1 })
-        .limit(6)
+        .limit(8)
         .toArray();
 
       res.send(result);
@@ -100,10 +100,39 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/recent-tips", async (req, res) => {
+      const result = await tipsCollection
+        .find({ availability: { $ne: "Hidden" } })
+        .sort({ _id: -1 })
+        .limit(5)
+        .toArray();
+
+      res.json(result);
+    });
+
+    app.get("/uniqueUser", async (req, res) => {
+      const tips = await tipsCollection.find({}).toArray();
+
+      const emailSet = new Set();
+      for (const tip of tips) {
+        if (tip.email) {
+          emailSet.add(tip.email);
+        }
+      }
+
+      const uniqueEmailCount = emailSet.size;
+      const totalTips = tips.length;
+
+      res.json({
+        uniqueEmailCount,
+        totalTips,
+      });
+    });
+
     app.get("/gardeners/active", async (req, res) => {
       const result = await gardenersCollection
         .find({ status: "Active" })
-        .limit(6)
+        .limit(8)
         .toArray();
       res.send(result);
     });
